@@ -1,29 +1,56 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
 import time
+import requests
+
+def get_session_info():
+
+    with open('session_info.txt', 'r') as file:
+        session_id = file.readline().strip()
+        csrftoken = file.readline().strip()
+
+    session_info = {
+        "session_id": session_id.split(':')[1].replace('"', ''),
+        "csrftoken": csrftoken.split(':')[1].replace('"','')
+    }
 
 
-service = Service('/home/hirun/Downloads/chromedriver-linux64/chromedriver')
-
-def get_driver():
-
-    options = webdriver.ChromeOptions()
-    options.add_argument("disable-infobars")
-    options.add_argument("start-maximized")
-    options.add_argument("disable-dev-shm-usage")
-    options.add_argument("no-sandbox")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_argument("disable-blink-features=AutomationControlled")
+    return session_info
 
 
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.get("https://leetcode.com/accounts/login/")
+# LeetCode GraphQL API URL
+URL = "https://leetcode.com/graphql"
 
-    return driver
+# GraphQL Query to fetch recent submissions
+GRAPHQL_QUERY = """
+query userSubmissionList($username: String!, $limit: Int!) {
+  recentSubmissionList(username: $username, limit: $limit) {
+    title
+    timestamp
+    statusDisplay
+    lang
+  }
+}
+"""
 
-def authentication():
+COOKIES = get_session_info()
+username = input("Enter your leetcode username: ")
 
-    
+# GraphQL variables
+variables = {"username": username, "limit": 10}
 
+# Headers (some GraphQL requests need CSRF protection)
+HEADERS = {
+    "Content-Type": "application/json",
+    "x-csrftoken": COOKIES["csrftoken"]
+}
+
+# Make the request
+response = requests.post(URL, json={"query": GRAPHQL_QUERY, "variables": variables}, cookies=COOKIES, headers=HEADERS)
+
+# Check response
+if response.status_code == 200:
+    data = response.json()
+    print("\n✅ Recent Submissions:")
+    for submission in data["data"]["recentSubmissionList"]:
+        print(f"- {submission['title']} | {submission['statusDisplay']} | {submission['lang']} | Timestamp: {submission['timestamp']}")
+else:
+    print("\n❌ Failed to fetch data:", response.text)
