@@ -58,7 +58,6 @@ def fetch_submissions():
                 "title": submission['title'],
                 "lang": submission['lang']
             })
-        print("\n✅ Grouped Submissions:", submissions_dict)
     else:
         print("\n❌ Failed to fetch data:", response.text)
 
