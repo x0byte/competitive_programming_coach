@@ -1,6 +1,6 @@
 # LeetCoach 🤖 – Your Personal Competitive Coding Coach (Because We All Suck Sometimes) 🎯
 
-![Hugging Face Logo](https://huggingface.co/front/assets/huggingface_logo.svg)
+![Hugging Face Logo](https://huggingface.co/front/assets/huggingface_logo.svg) ![LeetCode Logo](https://cdn.iconscout.com/icon/free/png-512/free-leetcode-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-4-pack-logos-icons-2944960.png?f=webp&w=256)
 
 Welcome to LeetCoach, the project that tells you why you keep failing at LeetCode (but nicely, I promise)!
 
