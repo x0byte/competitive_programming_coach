@@ -32,12 +32,11 @@ So here we are! 🎉
 
 Log into LeetCode -> Open Developer Tools -> Application -> Cookies.
 
-Copy LEETCODE_SESSION and csrftoken and save them in cookies.json:
+Copy LEETCODE_SESSION and csrftoken and save them in session_info.txt:
 
-    {
-      "LEETCODE_SESSION": "your-session-token-here",
-      "csrftoken": "your-csrf-token-here"
-    }
+     "LEETCODE_SESSION": "your-session-token-here",
+     "csrftoken": "your-csrf-token-here"
+    
 
 Run the magic:
 
